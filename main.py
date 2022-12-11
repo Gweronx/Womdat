@@ -1,19 +1,14 @@
 def parse(file):
     f=open(file)
     keys={}
-    ln=1
+    sect=""
     for line in f:
         line=line.replace("\n","")
         if line.startswith("="):pass
         elif line.startswith("[") and line.endswith("]"):
             tokens=line.replace("[","").replace("]","").split()
-            keys.update({tokens[0]:tokens[1].replace(";"," ")})
+            keys.update({f"{sect}{tokens[0]}":tokens[1].replace(";"," ")})
         elif line.startswith("<") and line.endswith(">"):
-            tokens=line.replace("<","").replace(">","").split()
-            keys.update({tokens[0]:int(tokens[1])})
+            sect=line.replace("<","").replace(">","")+"."
         elif line=="":pass
-        else:
-            print(f"Error on line {str(ln)}\n  {line}\nWhat is that?")
-            quit()
-        ln+=1
     return keys
